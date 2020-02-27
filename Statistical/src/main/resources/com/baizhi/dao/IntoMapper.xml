@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.IntoDb">
+    <insert id="insert">
+      insert into get (time,sum) values (#{time},#{sum});
+  </insert>
+
+    <!-- 查询所有的数据 -->
+
+    <select id="selectMessage" resultType="Into">
+        select time ,sum from get ;
+    </select>
+
+    <!-- 添加状态 -->
+
+    <insert id="insertStatus">
+      insert into t_statua (id,status,createtime,sum) values (null,#{status},#{createtime},#{sum});
+  </insert>
+
+    <!-- 查询所有的数据 -->
+
+    <select id="selectStatus" resultType="Status">
+        select id,status,createtime,sum from t_statua  where createtime=#{createtime};
+    </select>
+
+    <!-- 查询通过时间+状态查询所有的数据 -->
+
+    <select id="selectByTimeAndStatus" resultType="Status">
+        select id,status,createtime,sum from t_statua  where createtime=#{time} and status=#{status};
+    </select>
+
+
+    <!-- 独立用户的访问量 -->
+    <insert id="insertUser">
+        insert into t_uniqueview (id,time,num,ip) values (null,#{time},#{num},#{ip});
+    </insert>
+
+    <!-- 通过时间查询独立用户访问量 -->
+    <select id="selectUser" resultType="User">
+        select id,time,num,ip from t_uniqueview  where time=#{time};
+    </select>
+
+    <!-- 通过时通过时间+ip查询立用户访问量 -->
+    <select id="selectByTimeAndIp" resultType="User">
+        select id,time,num,ip from t_uniqueview  where time=#{time} and ip=#{ip};
+    </select>
+
+
+
+
+    <!-- 判断全部用户访问量，通过time查询 -->
+    <select id="selectByTime" resultType="Into">
+        select time ,sum from get  where time=#{time};
+    </select>
+
+    <select id="selectallMassage" resultType="Massage">
+         select time ,definitecasenum,suspectednum,curenum,didenum,definitecasenum+suspectednum as sum ,definitecasenum-curenum-didenum as corentdefinitecasenum
+from t_sta;
+    </select>
+
+
+
+
+
+</mapper>

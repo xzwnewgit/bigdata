@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"><link rel="icon" href="https://jscdn.com.cn/highcharts/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* css 代码  */
+    </style>
+    <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="container" style="min-width:400px;height:400px"></div>
+<div id="d2" style="min-width:400px;height:400px"></div>
+<div id="d3" style="min-width:400px;height:400px"></div>
+
+<script>
+    // JS 代码
+
+    $(function(){
+        $.ajax({
+            url:"/MyLog/log/showMassage",
+            type: "GET",
+            dataType:"json",
+            success:function(lists){
+
+                lists[0]
+
+                var chart1 = Highcharts.chart('container', {
+                    chart: {
+                        type: 'area'
+                    },
+                    title: {
+                        text: '全国肺炎病例数据统计'
+                    },
+                    subtitle: {
+                        text: 'Source: 腾讯网'
+                    },
+                    xAxis: {
+                        categories: lists[0],
+                        tickmarkPlacement: 'on',
+                        title: {
+                            enabled: false
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: '个（人）'
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        split: true,
+                        valueSuffix: ' 人次'
+                    },
+                    plotOptions: {
+                        area: {
+                            stacking: 'normal',
+                            lineColor: '#666666',
+                            lineWidth: 1,
+                            marker: {
+                                lineWidth: 1,
+                                lineColor: '#666666'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '疑似病例',
+                        data: lists[2]
+                    }, {
+                        name: '确诊人数',
+                        data: lists[1]
+                    }, {
+                        name: '死亡病例',
+                        data: lists[4]
+                    }, {
+                        name: '治疗病例',
+                        data: lists[3]
+                    }]
+
+                });
+
+
+            }
+        })
+
+    })
+
+//-------------------------------------------------------------------------------------------
+    $(function(){
+
+        $.ajax({
+            url:"/MyLog/log/showMassage",
+            type: "GET",
+            dataType:"json",
+            success:function(lists){
+
+                Highcharts.chart('d2', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: '全国肺炎病例数据统计'
+                    },
+                    subtitle: {
+                        text: '数据来源: WorldClimate.com'
+                    },
+                    xAxis: {
+                        categories:lists[0]
+                    },
+                    yAxis: {
+                        title: {
+                            text: '人（个）'
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value ;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '疑似病例',
+                        marker: {
+                            symbol: 'square'
+                        },
+                        data: lists[2]
+                    }, {
+                        name: '累计确诊病例',
+                        marker: {
+                            symbol: 'diamond'
+                        },
+                        data: lists[1]
+                    }, {
+                        name: '累计确诊+疑似病例',
+                        marker: {
+                            symbol: 'diamond'
+                        },
+                        data: lists[5]
+                    },
+                        {
+                            name: '当前确诊',
+                            marker: {
+                                symbol: 'diamond'
+                            },
+                            data: lists[6]
+                        }]
+                });
+
+
+
+            }
+        })
+
+    })
+//-----------------------------------------------------------------------------------------
+    $(function(){
+
+        $.ajax({
+            url:"/MyLog/log/showMassage",
+            type: "GET",
+            dataType:"json",
+            success:function(lists){
+
+                Highcharts.chart('d3', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: '全国肺炎病例数据统计'
+                    },
+                    subtitle: {
+                        text: '数据来源: WorldClimate.com'
+                    },
+                    xAxis: {
+                        categories:lists[0]
+                    },
+                    yAxis: {
+                        title: {
+                            text: '人（个）'
+                        },
+                        labels: {
+                            formatter: function () {
+                                return this.value ;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                            marker: {
+                                radius: 4,
+                                lineColor: '#666666',
+                                lineWidth: 1
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '死亡病例',
+                        marker: {
+                            symbol: 'square'
+                        },
+                        data: lists[4]
+                    }, {
+                        name: '治愈病例',
+                        marker: {
+                            symbol: 'diamond'
+                        },
+                        data: lists[3]
+                    }]
+                });
+
+
+
+            }
+        })
+
+    })
+
+
+
+</script>
+
+
+</body>
+</html>
